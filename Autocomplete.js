@@ -7,11 +7,18 @@ export default class Autocomplete {
   }
 
   onQueryChange(query) {
-    // Get data for the dropdown
-    let results = this.getResults(query, this.options.data);
-    results = results.slice(0, this.options.numOfResults);
 
+    if(this.options.hasOwnProperty("ghUsers")) {
+      console.log('this.options.ghUsers',this.options.ghUsers);
+        var results = this.getResults(query, this.options.ghUsers);
+    }else{
+        var results = this.getResults(query, this.options.data);
+    }
+
+    results = results.slice(0, this.options.numOfResults);
     this.updateDropdown(results);
+
+
   }
 
   /**
@@ -19,7 +26,6 @@ export default class Autocomplete {
    */
   getResults(query, data) {
     if (!query) return [];
-
     // Filter for matching strings
     let results = data.filter((item) => {
       return item.text.toLowerCase().includes(query.toLowerCase());
@@ -55,6 +61,8 @@ export default class Autocomplete {
 
   createQueryInputEl() {
     const inputEl = document.createElement('input');
+    var counter = 0;
+
     Object.assign(inputEl, {
       type: 'search',
       name: 'query',
